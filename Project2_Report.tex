@@ -48,7 +48,9 @@
     numbers=left,                 % Add line numbers on the left
     numberstyle=\tiny\color{gray} % Make line numbers small and gray
 }
-
+\usepackage{tikz}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+    \node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
 % Tables: nicer rules and multi-row cells
 \usepackage{booktabs}
 \usepackage{multirow}
@@ -193,7 +195,94 @@ Thankfully, the function \(x_{TX}(t)\) has a known Fourier Transform pair. The k
 \begin{equation}
     x(t) = \text{cos}(2\pi F_0t) \xleftrightarrow{\quad \mathcal{F} \quad}X(F) = \dfrac{1}{2}[\delta(F - F_0) + \delta(F +F_0)]
 \end{equation}
+\newline
+\newline
+Since a property of the Fourier Transform is linearity, this means that we can split the function into two parts and apply the transform to each part. The first cosine term is
+\begin{equation}
+\dfrac{1}{2}\text{cos}(2\pi t(500 + F_c)) \xleftrightarrow{\quad \mathcal{F} \quad} \dfrac{1}{2} \left[\dfrac{1}{2}[\delta(F - 500+F_c) + \delta(F +500+F_c)]\right]
+\end{equation}
+\[= \dfrac{1}{4} \left[ \delta (F - 500 +F_c) + \delta (F + 500 + F_c)\right]\]
+\[= \dfrac{1}{4} \delta (F - 500 + F_c) + \dfrac{1}{4} \delta (F + 500 + F_c)\]
 
+Then the second cosine term,
+
+\begin{equation}
+\dfrac{1}{2}\text{cos}(2\pi t(500 - F_c)) \xleftrightarrow{\quad \mathcal{F} \quad} \dfrac{1}{2} \left[\dfrac{1}{2}[\delta(F - 500-F_c) + \delta(F +500-F_c)]\right]
+\end{equation}
+\[= \dfrac{1}{4} \left[ \delta (F - 500 - F_c) + \delta (F + 500 - F_c)\right]\]
+\[= \dfrac{1}{4} \delta (F - 500 - F_c) + \dfrac{1}{4} \delta (F + 500 - F_c)\]
+
+Then, referencing back to the linearity property, we are able to add these two transformed terms back together to have the final Fourier Transform, \(X_{TX}(F)\).
+
+\[X_{TX}(F) =\dfrac{1}{4} \delta (F - 500 + F_c) + \dfrac{1}{4} \delta (F + 500 + F_c) + \dfrac{1}{4} \delta (F - 500 - F_c) + \dfrac{1}{4} \delta (F + 500 - F_c)\]
+
+Finally, we can factor out the \(1/4\) term from each cosine, giving us our final answer.
+
+\begin{equation}
+    X_{TX}(F) =\dfrac{1}{4} \left[ \delta (F - 500 + F_c) + \delta (F + 500 + F_c) + \delta (F - 500 - F_c) + \delta (F + 500 - F_c) \right]
+\end{equation}
+
+\subsection*{Calculation 2 Results:}
+
+Using the linearity property and a known pair, we were able to perform the Fourier Transform on a signal consisting of a sum of cosines. The resulting signal is a sum of \(\delta\) functions, with
+a magnitude of \(1/4\).
+
+
+   \[x_{TX}(t) \xleftrightarrow{\quad \mathcal{F} \quad} X_{TX}(F) =\dfrac{1}{4} \left[ \delta (F - 500 + F_c) + \delta (F + 500 + F_c) + \delta (F - 500 - F_c) + \delta (F + 500 - F_c) \right]\]
+
+\subsection*{Calculation 3:}
+
+It is important to verify that the pairs and properties of the Fourier Transform were applied properly. In order to do this, the Fourier Transforms of both \(x(t)\) and \(x_{c}(t)\)
+will be performed. Beginning with \(x_t(t)\), we can note that the signal can be used with the same pair used in finding the Fourier Transform of \(X_{TX}(F)\) being,
+
+
+    \[x(t) = \text{cos}(2\pi F_0t) \xleftrightarrow{\quad \mathcal{F} \quad}X(F) = \dfrac{1}{2}[\delta(F - F_0) + \delta(F +F_0)]\]
+
+Substituting in our \(x(t)\) gives
+\[x(t) = \text{cos}(2\pi \times 500t) \xleftrightarrow{\quad \mathcal{F} \quad}X(F) = \dfrac{1}{2}[\delta(F - 500) + \delta(F +500)]\]
+\[x(t) = \text{cos}(2\pi \times 500t) \xleftrightarrow{\quad \mathcal{F} \quad}X(F) = \dfrac{1}{2}\delta(F - 500) + \dfrac{1}{2}\delta(F +500)\]
+and doing the same for \(x_c(t)\)
+\[x_c(t) = \text{cos}(2\pi F_ct) \xleftrightarrow{\quad \mathcal{F} \quad}X_c(F) = \dfrac{1}{2}[\delta(F - Fc) + \delta(F + Fc)]\]
+\[x_c(t) = \text{cos}(2\pi F_ct) \xleftrightarrow{\quad \mathcal{F} \quad}X_c(F) = \dfrac{1}{2}\delta(F - Fc) + \dfrac{1}{2}\delta(F + Fc)\]
+With these two Fourier Transforms, and the multiplication property,
+\[x(t)y(t) \xleftrightarrow{\quad \mathcal{F} \quad} X(F) \ast Y(F) \]
+we can define the Fourier Transform of \(x_{TX}(t)\) as
+\[X_{TX}(F) = X(F) \ast X_C(F)\]
+
+Substituing the values found above for \(X(F)\) and \(X_c(F)\), we have the new function
+\[X_{TX}(F) = \dfrac{1}{2}\delta(F - 500) + \dfrac{1}{2}\delta(F +500) \ast \dfrac{1}{2}\delta(F - Fc) + \dfrac{1}{2}\delta(F + Fc) \]
+
+To simplify the terms of this \(X_{TX}(F)\), the function must be colvolved. To do this, the shifting and linearity properties of convolution must be applied.
+\[x(t) \ast \delta(t - t_0) = x(t - t_0)\]
+\clearpage
+
+For ease of viewing, each term in the convolution has been labeled as follows
+
+\begin{equation}
+    X_{TX}(F) = \overset{\circled{1}}{ {\frac{1}{2}\delta(F - 500)} } 
+              + \overset{\circled{2}}{ {\frac{1}{2}\delta(F + 500)} } 
+              \ast \overset{\circled{3}}{ {\frac{1}{2}\delta(F - F_c)} } 
+              + \overset{\circled{4}}{ {\frac{1}{2}\delta(F + F_c)} }
+\end{equation}
+
+each term on the right hand side, \circled{3} and \circled{4}, must be applied to each term on the left hand side, \circled{1} and \circled{2}.
+
+\[\overset{\circled{1}}{ {\frac{1}{2}\delta(F - 500)}} \ast \overset{\circled{3}}{ {\frac{1}{2}\delta(F - F_c)} }  = \dfrac{1}{4} \delta(F - 500 - F_C)\]
+\[\overset{\circled{1}}{ {\frac{1}{2}\delta(F - 500)} } \ast \overset{\circled{4}}{ {\frac{1}{2}\delta(F + F_c)} } = \dfrac{1}{4} \delta(F - 500 + F_C)\]
+\[\overset{\circled{2}}{ {\frac{1}{2}\delta(F + 500)} }  \ast\overset{\circled{3}}{ {\frac{1}{2}\delta(F - F_c)} } = \dfrac{1}{4} \delta(F + 500 - F_C)\]
+\[\overset{\circled{2}}{ {\frac{1}{2}\delta(F + 500)} }  \ast \overset{\circled{4}}{ {\frac{1}{2}\delta(F + F_c)} } = \dfrac{1}{4} \delta(F + 500 - F_C)\]
+
+
+
+Then, referencing back to the linearity property, we are able to add these terms back together to have the final Fourier Transform, \(X_{TX}(F)\).
+
+\[X_{TX}(F) =\dfrac{1}{4} \delta (F - 500 + F_c) + \dfrac{1}{4} \delta (F + 500 + F_c) + \dfrac{1}{4} \delta (F - 500 - F_c) + \dfrac{1}{4} \delta (F + 500 - F_c)\]
+
+And we can factor out the \(1/4\) term from each cosine, giving us our final answer.
+
+\begin{equation}
+    X_{TX}(F) =\dfrac{1}{4} \left[ \delta (F - 500 + F_c) + \delta (F + 500 + F_c) + \delta (F - 500 - F_c) + \delta (F + 500 - F_c) \right]
+\end{equation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DOCUMENT END
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
