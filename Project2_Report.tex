@@ -1,0 +1,200 @@
+%--------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% THE PREAMBLE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%--------------------------------------------
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DOCUMENT CLASS (don't ever change this unless specified to do so).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\documentclass[11pt]{article}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% USEFUL PACKAGES THAT YOU NEED. (Everything here needs to be here for the program to run.  Do not delete anything from the preamble, but you can add new things that you find on the internet.)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{fullpage}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amssymb}
+\usepackage{empheq}
+\usepackage{mathrsfs}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{pgflibraryarrows}
+\usepackage{pgflibrarysnakes}
+\usepackage{upgreek}
+\usepackage{tipa}
+\usepackage{gensymb}
+\usepackage{multicol}
+\usepackage{textcomp}
+\usepackage{float}
+\usepackage{ulem}
+\usepackage{setspace}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{matlab-prettifier}
+\usepackage{listings}
+% Define a custom style for MATLAB code using matlab-prettifier
+\lstdefinestyle{Matlab-editor}{
+    style=Matlab-Pyglike, % Use a nice default style from the package
+    basicstyle=\mlttfamily\small, % Use a small, typewriter font
+    frame=single,                 % Add a frame around the code
+    numbers=left,                 % Add line numbers on the left
+    numberstyle=\tiny\color{gray} % Make line numbers small and gray
+}
+
+% Tables: nicer rules and multi-row cells
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{pifont}
+\newcommand{\cmark}{\ding{51}} % check
+\newcommand{\xmark}{\ding{55}} % cross
+\setlength{\parindent}{0pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CREATES A SOLUTION ENVIRONMENT FOR HOMEWORK ASSIGNMENTS (You may not use this but leave it here for future assignments)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{versions}
+\excludeversion{sol}
+\includeversion{sol}
+\newenvironment{solution}{
+\sol\\{\sc{Solution:}}}{
+$\hfill\blacksquare$\endsol}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CUSTOM DEFINITIONS FOR CREATING DERIVATIVE SYMBOLS (You will definitely use these.)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pdd}[2]{\frac{\partial^2 #1}{\partial {#2}^2}}
+\newcommand{\de}[2]{\frac{d #1}{d #2}}
+\newcommand{\dde}[2]{\frac{d^2 #1}{d #2^2}}
+\renewcommand{\figurename}{Plot}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CREATES THE TITLE PAGE (Note where to put the author, title, and date.)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{\textsc{Dylan Huston \\ Isai Moreno}}
+\author{\Large{ECE 3793 -- \textsc{Project 2}}}
+\date{November 18, 2025}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CREATES A HEADER FOR EACH PAGE.  Please note where the left, center, and right titles are:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{fancyhdr}
+\setlength{\headheight}{15.2pt}
+\pagestyle{fancy}
+\setlength\headsep{30pt}
+\lhead{Dylan Huston | Isai Moreno}   					
+\chead{\textsc{Project 2}}			    %  Title in the center.
+\rhead{\today}							%  Date on the right header.
+
+\begin{document}
+
+\maketitle
+\pagebreak
+
+%--------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% END OF THE PREAMBLE AND BEGINNING OF THE ACTUAL DOCUMENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%--------------------------------------------
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SECTIONS, SUBSECTIONS, EQUATIONS, and OTHER THINGS:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Introduction}
+
+In this project, our team will be deriving and applying Fourier constants across a simple step function. During this process several MATLAB calculations will be performed, as well as deriving the Fourier constant integral to be used in recreating a signal. These signals and constants will then be plotted. The code that is used to derive the Fourier constants will then be used to derive the constants of different instruments playing the C3 note.  
+
+
+\pagebreak
+
+\section*{Part I: Derivation for the Transmitter}
+
+Given a signal with a frequency of 500 Hz, \\ 
+\begin{equation}
+    x(t) = \text{cos}(2\pi \times 500t)
+\end{equation}
+and an arbitrary carrier frequency (\(F_c\)), to which the carrier signal is
+\begin{equation}
+    x_c(t) = \text{cos}(2\pi F_ct)
+\end{equation}
+
+\subsection*{Calculation 1: \(x_{TX}(t)\) as a sum of cosines}
+
+\begin{equation}
+x_{TX}(t) = x(t)x_c(t)
+\end{equation}
+
+Using the known signals, \(x(t)\) and \(x_c(t)\), we can substitute these functions into \(x_{TX}(t)\).
+
+\[x_{TX}(t) = (\text{cos}(2\pi \times 500t))(\text{cos}(2\pi F_ct))\]
+
+Using the trigonometric identity
+\begin{equation} 
+\text{cos}(u)\text{cos}(v) = \dfrac{1}{2}[\text{cos}(u+v)+\text{cos}(u-v)]
+\end{equation}
+
+Substituting in equation 1 for the cos(u) term, and equation 2 for the cos(v) term,
+
+   \[\text{cos}(2\pi \times 500)\text{cos}(2\pi F_ct) = \dfrac{1}{2}[\text{cos}(2\pi \times 500t + 2\pi F_ct) + \text{cos}(2\pi \times 500t - 2\pi F_ct)]\]
+
+
+Resulting in the equation
+
+\begin{equation}   
+x_{TX}(t) = \dfrac{1}{2}[\text{cos}(2\pi \times 500t + 2\pi F_ct) + \text{cos}(2\pi \times 500t - 2\pi F_ct)]
+\end{equation}
+
+Then distributing the \(1/2\) to each cosine
+
+\[x_{TX}(t) = \dfrac{1}{2}\text{cos}(2\pi \times 500t + 2\pi F_ct) + \dfrac{1}{2}\text{cos}(2\pi \times 500t - 2\pi F_ct)\]
+
+and factoring out \(2\pi\) from each cosine term
+
+\[x_{TX}(t) = \dfrac{1}{2}\text{cos}(2\pi(500t + F_ct)) + \dfrac{1}{2}\text{cos}(2\pi(500t - F_ct))\]
+
+And finally, factoring out t from each term.
+
+  \[ x_{TX}(t) = \dfrac{1}{2}\text{cos}(2\pi t(500 + F_c)) + \dfrac{1}{2}\text{cos}(2\pi t(500 - F_c)) \]
+
+
+\clearpage
+
+\subsection*{Calculation 1 Results:}
+
+As shown through using trigonometic identities, and basic algebraic techniques, \(x_{TX}(t)\) can be expressed as a sum of cosines as follows.
+
+\begin{equation}
+   x_{TX}(t) = \dfrac{1}{2}\text{cos}(2\pi t(500 + F_c)) + \dfrac{1}{2}\text{cos}(2\pi t(500 - F_c)) 
+\end{equation}
+
+
+\subsection*{Calculation 2: The Fourier Transform of \(x_{TX}(t)\)}
+
+The Fourier Transform for a continuous signal is defined as
+
+\begin{equation}   
+    X(F) = \int_{-\infty}^{\infty} x(t) e^{-j2\pi Ft}dt
+\end{equation}
+
+Thankfully, the function \(x_{TX}(t)\) has a known Fourier Transform pair. The known pairing is
+
+\begin{equation}
+    x(t) = \text{cos}(2\pi F_0t) \xleftrightarrow{\quad \mathcal{F} \quad}X(F) = \dfrac{1}{2}[\delta(F - F_0) + \delta(F +F_0)]
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DOCUMENT END
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
