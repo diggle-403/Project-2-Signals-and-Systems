@@ -440,10 +440,56 @@ Now, with the pieces that we have found, we can reconstruct the signal using the
 
 \[x_d(t) = \dfrac{1}{2}x_a(t) + \dfrac{1}{2}x_a(t)\text{cos}(4\pi F_c t) + x_I(t)\text{cos}(2\pi F_c t)\]
 
-\subsection*{Calculation 10: The Fourier transform for the ideal filter}
+\subsection*{Calculation 10: The Fourier transform for the ideal filter \(H(F)\)}
 To fully recieve our signal, we must now apply a filter to remove the unwanted content, so we are only left with \(x_a(t)\). Knowing that our transformed signal, \(X_a(F)\) does not
-have content about \(F = 22\)kHz. The ideal low pass filter is a rect function, centered at \(F = 0\)Hz, with a width of \(2F_{LPF}\) (Low-Pass Filter), where \(F_{LPF}\) is the cutoff
+have content above \(F = 22\)kHz. The ideal low pass filter is a rect function, centered at \(F = 0\)Hz, with a width of \(2F_{LPF}\) (Low-Pass Filter), where \(F_{LPF}\) is the cutoff
 frequency of the filter. In our case, \(F_{LPF} = 22\)kHz
+
+Knowing that we are centered at F = 0, and have the width of 2\(F_{LPF}\), with the known value of \(F_{LPF}\) = 22kHz we can derive the piecewise function for the shape we want.
+
+\begin{equation*}
+    H(F) =
+\begin{cases}
+    1 & \text{if } |F|\le 22\text{ kHz}\\
+    0 & \text{if } |F|> 22\text{ kHz}\\
+\end{cases}
+\end{equation*}
+
+
+This works because if F is in the range  \(-22\text{ kHz} \le F \le 22\text{ Hz} \), we will allow the signal through, but if we are outside the range, \(F > 22\text{ kHz}\) or \(F < -22 \text{ kHz}\)
+nothing will pass through.
+
+Using the piecewise function we created for H(F), we can define H(F) formally as
+
+\[H(F) = \text{rect}\Bigl(\dfrac{F}{44\text{ kHz}}\Bigr)\]
+
+\subsection*{Calculation 11: Determine the Impulse Response h(t)}
+
+The rect function has known Fourier pairing,
+\[X(F) = \text{rect}\Bigl(\dfrac{F}{W}\Bigr) \xleftrightarrow{\quad \mathcal{F} \quad } x(t) = W\text{sinc}(Wt)\]
+
+Using our defined H(F)
+
+\[H(F) =\text{rect}\Bigl(\dfrac{F}{44\text{ kHz}}\Bigr) \xleftrightarrow{\quad \mathcal{F} \quad } h(t) = 44\text{ kHz }\text{sinc}(44\text{ kHz }t)\]
+
+Otherwise,
+
+\[h(t) = 44000\text{ sinc}(44000t)\]
+\clearpage
+\subsection*{Calculation 12: The Fourier Transform \(X_{out}(F)\)}
+
+\(x_{out}(t)\) is defined as
+
+\[x_{out}(t) = x_d(t) \ast h(t)\]
+
+Using the Fourier transform property of convolution,
+
+\[x(t) \ast y(t) \xleftrightarrow{\mathcal{F}^{-1}} X(F)Y(F)\]
+
+we can substitute in our known values of \(X_d(F)\) and \(H(F)\).
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DOCUMENT END
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
