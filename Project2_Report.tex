@@ -34,7 +34,7 @@
 \usepackage{float}
 \usepackage{ulem}
 \usepackage{setspace}
-\usepackage[margin=1in]{geometry}
+
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{wrapfig}
@@ -407,9 +407,43 @@ Simplifying this gives
 
 Further simplifying and rearranging terms,
 
-\[X_d(F) = \dfrac{1}{4}X_a(F-2F_c) + \dfrac{1}{4}X_a(F+2F_c) + \dfrac{1}{2}X_a(F) + \dfrac{1}{2}X_I(F+F_c) + \dfrac{1}{2}X_I(F-Fc)\]
+\[X_d(F) = \dfrac{1}{4}X_a(F-2F_c) + \dfrac{1}{4}X_a(F+2F_c) + \dfrac{1}{2}X_a(F) + \dfrac{1}{2}X_I(F+F_c) + \dfrac{1}{2}X_I(F-F_c)\]
 
 Our final answer, and expression for \(X_d(F)\).
+
+\subsection*{Calculation 8: The Inverse Fourier Transform of \(X_d(F)\)}
+
+Using the Fourier pairing
+
+\[x(t) = \text{cos}(2\pi F_0 t) \xleftrightarrow{\quad \mathcal{F} \quad} X(F) = \dfrac{1}{2}\left[ \delta (F-F_0) + \delta (F+F_0)\right]\]
+
+we are able to simplify the \(X_a(F \pm 2F_c)\) and \(X_I(F \pm F_c)\) terms. Firstly, the \(X_a(F)\) terms.
+
+\[\dfrac{1}{4}X_a(F - 2F_c) + \dfrac{1}{4}X_a(F + 2F_c)\]
+\[\dfrac{1}{4} \Bigl[X_a(F - 2F_c) + X_a(F + 2F_c)  \Bigr] \]
+\[\dfrac{1}{2}\biggl[ \dfrac{1}{2} \Bigl[X_a(F - 2F_c) + X_a(F + 2F_c)  \Bigr] \biggr]\]
+\[\dfrac{1}{2}\biggl[ \dfrac{1}{2} \Bigl[X_a(F - 2F_c) + X_a(F + 2F_c)  \Bigr] \biggr]\xrightarrow{\quad \mathcal{F}^{-1} \quad} \dfrac{1}{2}x_a(t)\text{cos}(2\pi(2F_c)t)\]
+\[X_a(F \pm 2F_c) \xrightarrow{\mathcal{F}^{-1}}\dfrac{1}{2}x_a(t)\text{cos}(4\pi F_ct)\]
+
+
+Now, the \(X_I(F \pm F_c)\) terms.
+\[\dfrac{1}{2}X_I(F + F_c) + \dfrac{1}{2}X_I(F - F_c)\]
+\[\dfrac{1}{2} \Bigl[ X_I(F + F_c) + X_I(F - F_c) \Bigr]\]
+\[\dfrac{1}{2} \Bigl[ X_I(F + F_c) + X_I(F - F_c) \Bigr] \xrightarrow{\quad \mathcal{F}^{-1} \quad} x_I(t)\text{cos}(2\pi F_ct)\]
+\[X_I(F \pm F_0) \xrightarrow{\mathcal{F}^{-1}} x_I(t)\text{cos}(2\pi F_ct)\]
+
+The final transform which has no shifts, is simple enough
+
+\[\dfrac{1}{2}X_a(F) \xrightarrow{\mathcal{F}^{-1}} \dfrac{1}{2}x_a(t)\]
+
+Now, with the pieces that we have found, we can reconstruct the signal using the linearity property of the Fourier transform.
+
+\[x_d(t) = \dfrac{1}{2}x_a(t) + \dfrac{1}{2}x_a(t)\text{cos}(4\pi F_c t) + x_I(t)\text{cos}(2\pi F_c t)\]
+
+\subsection*{Calculation 10: The Fourier transform for the ideal filter}
+To fully recieve our signal, we must now apply a filter to remove the unwanted content, so we are only left with \(x_a(t)\). Knowing that our transformed signal, \(X_a(F)\) does not
+have content about \(F = 22\)kHz. The ideal low pass filter is a rect function, centered at \(F = 0\)Hz, with a width of \(2F_{LPF}\) (Low-Pass Filter), where \(F_{LPF}\) is the cutoff
+frequency of the filter. In our case, \(F_{LPF} = 22\)kHz
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DOCUMENT END
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
