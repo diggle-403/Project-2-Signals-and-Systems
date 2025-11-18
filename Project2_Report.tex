@@ -82,7 +82,7 @@ $\hfill\blacksquare$\endsol}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % CREATES THE TITLE PAGE (Note where to put the author, title, and date.)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{\textsc{Dylan Huston \\ Isai Moreno}}
+\title{\textsc{Dylan Huston}}
 \author{\Large{ECE 3793 -- \textsc{Project 2}}}
 \date{November 18, 2025}
 
@@ -94,7 +94,7 @@ $\hfill\blacksquare$\endsol}
 \setlength{\headheight}{15.2pt}
 \pagestyle{fancy}
 \setlength\headsep{30pt}
-\lhead{Dylan Huston | Isai Moreno}   					
+\lhead{Dylan Huston}   					
 \chead{\textsc{Project 2}}			    %  Title in the center.
 \rhead{\today}							%  Date on the right header.
 
@@ -482,13 +482,39 @@ Otherwise,
 
 \[x_{out}(t) = x_d(t) \ast h(t)\]
 
-Using the Fourier transform property of convolution,
+Making the assumption that \(X_I(F)\) does not overlap in frequency with \(X_a(F)\), we can re-define \(X_d(F)\) as
+
+\[X_d(F) = \dfrac{1}{4}X_a(F)(F-2F_c) + \dfrac{1}{4}X_a(F)(F+2F_c) + \dfrac{1}{2}X_a(F)\]
+
+using the Fourier transform property of convolution,
 
 \[x(t) \ast y(t) \xleftrightarrow{\mathcal{F}^{-1}} X(F)Y(F)\]
 
-we can substitute in our known values of \(X_d(F)\) and \(H(F)\).
+We can defined the Fourier transform of \(x_{out}(t)\) as 
 
+\[X_{out}(F) = X_d(F)H(F)\]
 
+With the knowledge that \(X_a(F)\) has a bandwith of 22 kHz, and the piecewise function for \(H(F)\),
+
+\begin{equation*}
+    H(F) =
+\begin{cases}
+    1 & \text{if } |F|\le 22\text{ kHz}\\
+    0 & \text{if } |F|> 22\text{ kHz}\\
+\end{cases}
+\end{equation*}
+
+First, let us visualize the different components we will be using. Firstly, H(F)
+
+ \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.9\textwidth]{Calc12_HF.png}  
+    \end{figure}
+
+We can see that just like the piecewise function describes, H(F) is a box centered about 0, extending from -22 kHz to 22 kHz. Because we know that \(X_a(F)\) must lie in this region.
+Assuming that the frequency for \(X_a(F)\) is \(\pm\)22 kHz, no matter the carrier frequency, \(F_c\), the first two terms of \(X_d(F)\) will lie outside of the range of H(F)
+
+\subsection*{Calculation 13: The Final Expression for \(x_{out}(t)\)}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DOCUMENT END

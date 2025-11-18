@@ -1,26 +1,45 @@
-% 1. Define a carrier frequency (you must pick one)
-Fc = 1000;
+% --- Parameters ---
+Fc = 0;          % Carrier Frequency (60 kHz)
+Fa = 500;            % Audio Frequency (500 Hz)
+F_int_orig = 0;  % Original Interferer Frequency (90 kHz)
 
-% 2. Define the locations of the four deltas
-%    F_locations = [ (Fc+500), (Fc-500), -(Fc-500), -(Fc+500) ];
-%    Let's sort them from left to right:
-F_locations = [ -(Fc+500), -(Fc-500), (Fc-500), (Fc+500) ];
-% This will be: [ -5500, -4500, 4500, 5500 ]
+% --- Define Frequency Axis ---
+% High enough to see the 2Fc components (approx 120k)
+F = -160000:100:160000; 
 
-% 3. Define the amplitudes (all are 1/4)
-Amplitudes = [0.25, 0.25, 0.25, 0.25];
+% --- Construct the Signal Vectors (Using Logical Indexing) ---
 
-% 4. Plot with stem
+% 1. Baseband Audio: 1/2 Xa(F)
+% Centered at 0 Hz. (Peaks at +/- 500 Hz)
+% Original Amp = 0.5 -> New Amp = 0.25
+Xa_base = 0.25 * ((abs(F - Fa) < 50) | (abs(F + Fa) < 50));
+
+% 2. High-Frequency Audio Copies: 1/4 Xa(F +/- 2Fc)
+% Centered at +/- 120 kHz.
+% Original Amp = 0.5 -> New Amp = 0.125
+Xa_high = 0.125 * ((abs(F - (2*Fc - Fa)) < 50) | (abs(F - (2*Fc + Fa)) < 50) | ...
+                   (abs(F + (2*Fc - Fa)) < 50) | (abs(F + (2*Fc + Fa)) < 50));
+
+% 3. Shifted Interferers: 1/2 XI(F +/- Fc)
+% Original was at +/- 90k. Shifted by 60k.
+% Locations: (+90-60)=30k, (-90-60)=-150k, (+90+60)=150k, (-90+60)=-30k
+% Let's assume original XI amplitude was 0.5. New Amp = 0.25.
+XI_shifted = 0.25 * ((abs(F - 30000) < 50) | (abs(F + 30000) < 50) | ...
+                     (abs(F - 150000) < 50) | (abs(F + 150000) < 50));
+
+% --- Combine into Total Xd(F) ---
+Xd = Xa_base + Xa_high + XI_shifted;
+
+% --- Plotting ---
 figure;
-stem(F_locations, Amplitudes, 'filled');
-
-% 5. Add labels and adjust axes
-title(' X_T_X(F)');
-xlabel('Frequency (F)');
-ylabel('Amplitude');
+stem(F, Xd, 'b', 'LineWidth', 1.5, 'Marker', 'none');
 grid on;
 
-% --- Adjust axes for a clean look ---
-ylim([0 0.3]); % A little above 0.25
-% Give 1000Hz padding on each side
-xlim([-Fc-1000, Fc+1000]);
+% --- Formatting for Clarity ---
+title('Spectrum of Down-converted Signal X_d(F)');
+xlabel('Frequency (Hz)');
+ylabel('Amplitude');
+ylim([0 0.35]); % Set y-limit to see relative heights
+ax = gca;
+
+% Add text labels to explain the components
