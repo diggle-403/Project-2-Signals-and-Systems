@@ -244,6 +244,13 @@ Substituting in our \(x(t)\) gives
 and doing the same for \(x_c(t)\)
 \[x_c(t) = \text{cos}(2\pi F_ct) \xleftrightarrow{\quad \mathcal{F} \quad}X_c(F) = \dfrac{1}{2}[\delta(F - Fc) + \delta(F + Fc)]\]
 \[x_c(t) = \text{cos}(2\pi F_ct) \xleftrightarrow{\quad \mathcal{F} \quad}X_c(F) = \dfrac{1}{2}\delta(F - Fc) + \dfrac{1}{2}\delta(F + Fc)\]
+
+This results in our final calculations for \(X(F)\) and \(X_c(F)\) to be 
+\[X(F) = \dfrac{1}{2}\delta(F - 500) + \dfrac{1}{2}\delta(F +500)\]
+\[X_c(F) = \dfrac{1}{2}\delta(F - Fc) + \dfrac{1}{2}\delta(F + Fc)\]
+
+\clearpage
+\subsection*{Calculation 4:}
 With these two Fourier Transforms, and the multiplication property,
 \[x(t)y(t) \xleftrightarrow{\quad \mathcal{F} \quad} X(F) \ast Y(F) \]
 we can define the Fourier Transform of \(x_{TX}(t)\) as
@@ -252,9 +259,8 @@ we can define the Fourier Transform of \(x_{TX}(t)\) as
 Substituing the values found above for \(X(F)\) and \(X_c(F)\), we have the new function
 \[X_{TX}(F) = \dfrac{1}{2}\delta(F - 500) + \dfrac{1}{2}\delta(F +500) \ast \dfrac{1}{2}\delta(F - Fc) + \dfrac{1}{2}\delta(F + Fc) \]
 
-To simplify the terms of this \(X_{TX}(F)\), the function must be colvolved. To do this, the shifting and linearity properties of convolution must be applied.
+To simplify the terms of this \(X_{TX}(F)\), the function must be convolved. To do this, the shifting and linearity properties of convolution must be applied.
 \[x(t) \ast \delta(t - t_0) = x(t - t_0)\]
-\clearpage
 
 For ease of viewing, each term in the convolution has been labeled as follows
 
@@ -283,6 +289,63 @@ And we can factor out the \(1/4\) term from each cosine, giving us our final ans
 \begin{equation}
     X_{TX}(F) =\dfrac{1}{4} \left[ \delta (F - 500 + F_c) + \delta (F + 500 + F_c) + \delta (F - 500 - F_c) + \delta (F + 500 - F_c) \right]
 \end{equation}
+
+\clearpage
+
+Comparing this to the \(X_{TX}(F)\) found in \textbf{Calculation 2}, we can see that both of these ways result in the same answer, verifying the linearity and convolution properties of the
+Fourier Transform. 
+
+\subsection*{Question 1: How is \(X_{TX}(F)\) related to \(X(F)\)?}
+
+Let's begin by looking at a graph of \(X(F)\).
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{Question1_XF.png}  
+    \end{figure}
+
+Above we can see two stems, located at -500 and +500, with a height of 1/2. With the signal being centered around 0. Now let us look at a graph for \(X_{TX}(F)\), with an \(F_c\) of 0.
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{Q1_FC0.png}  
+    \end{figure}
+
+    We can see that this is the same graph, only scaled down due to the additional 1/2 from \(X_c(F)\). Looking at a graph where \(F_c = 5500\), we can see a change in the graph. 
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.9\textwidth]{Q1_FC5500.png}  
+    \end{figure}
+
+    Looking at this graph, we can see that when the signal is shifted by $F_c$, it is bound by \(X(F)\). 
+    \section*{WE AINT DONE COME BACK HERE}
+
+
+    Now, should we be given an audio waveform \(x_a(t)\), given only the knowledge that it has a Fourier transform \(X_a(F)\) which only has non-zero values for \(\left|F\right| < 22\)kHz
+    and it is a real signal, meaning that it is conjugate symmetric.\\
+
+    We shall now redefine our transmit signal by
+    \[x_{TX}(t) = x_a(t)x_c(t)\]
+
+    \subsection*{Calculation 5:}
+    Despite not knowing the signal \(x_a(t)\), we will still take the Fourier transform to find our new, transformed signal, \(X_{TX}(F)\). For now, we will define the Fourier transform of \(x_a(t)\) as \(X_a(F)\).
+    \[x_{TX}(t) = x_a(t)x_c(t) \xleftrightarrow{\quad \mathcal{F} \quad} X_{TX}(F) = X_a(F)\ast X_c(F)\]
+    Since we have previously defined \(X_c(F)\), we can easily substitute it in.
+    \[X_{TX}(F) = X_a(F) \ast \dfrac{1}{2}\delta(F - Fc) + \dfrac{1}{2}\delta(F + Fc)\]
+    Now, using the shifting property of convolution, \(x(t) \ast \delta(t-t_0) = x(t-t_0)\).
+
+    \[X_{TX}(F) = \dfrac{1}{2}X_a(F-F_c) + \dfrac{1}{2}X_a(F+F_c)\]
+
+    \subsection*{Question 2: How is \(X_{TX}(F)\) related to \(X_a(F)\)?}
+
+    \section*{I AINT DONE WITH YOU BOY}
+
+    \subsection*{Question 3: What is the bandwidth of \(X_a(F)\) if we only consider the positive side of the F-Axis?}
+    With the hypothetical that the minimum frequency of \(X_a(F)\) is F = 0 Hz, and the maximum frequency is F = 22kHz, the bandwith is the difference between the largest and smallest frequency.
+    The difference between the two frequencies, 0 Hz and 22k Hz, is 22k Hz. With that
+    we can say that \textbf{the bandwith of \(X_a(F)\) is 22kHz}
+
+    \subsection*{Question 4: What is the bandwidth of \(X_{TX}(F)\) if we only consider the positive side of the F-Axis?}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DOCUMENT END
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
