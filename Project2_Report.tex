@@ -121,7 +121,7 @@ In this project, our team will be deriving and applying Fourier constants across
 
 \pagebreak
 
-\section*{Part I: Derivation for the Transmitter}
+\section*{Part I(a): Derivation for the Transmitter}
 
 Given a signal with a frequency of 500 Hz, \\ 
 \begin{equation}
@@ -276,7 +276,7 @@ each term on the right hand side, \circled{3} and \circled{4}, must be applied t
 \[\overset{\circled{1}}{ {\frac{1}{2}\delta(F - 500)}} \ast \overset{\circled{3}}{ {\frac{1}{2}\delta(F - F_c)} }  = \dfrac{1}{4} \delta(F - 500 - F_C)\]
 \[\overset{\circled{1}}{ {\frac{1}{2}\delta(F - 500)} } \ast \overset{\circled{4}}{ {\frac{1}{2}\delta(F + F_c)} } = \dfrac{1}{4} \delta(F - 500 + F_C)\]
 \[\overset{\circled{2}}{ {\frac{1}{2}\delta(F + 500)} }  \ast\overset{\circled{3}}{ {\frac{1}{2}\delta(F - F_c)} } = \dfrac{1}{4} \delta(F + 500 - F_C)\]
-\[\overset{\circled{2}}{ {\frac{1}{2}\delta(F + 500)} }  \ast \overset{\circled{4}}{ {\frac{1}{2}\delta(F + F_c)} } = \dfrac{1}{4} \delta(F + 500 - F_C)\]
+\[\overset{\circled{2}}{ {\frac{1}{2}\delta(F + 500)} }  \ast \overset{\circled{4}}{ {\frac{1}{2}\delta(F + F_c)} } = \dfrac{1}{4} \delta(F + 500 + F_C)\]
 
 
 
@@ -346,6 +346,70 @@ Above we can see two stems, located at -500 and +500, with a height of 1/2. With
 
     \subsection*{Question 4: What is the bandwidth of \(X_{TX}(F)\) if we only consider the positive side of the F-Axis?}
 
+    \section*{NOT DONE YET}
+
+     \subsection*{Question 5: How does the bandwidth of \(X_{TX}(F)\) compare with the bandwidth of \(X_a(F)\)}
+
+    \section*{NOT DONE YET}
+
+\clearpage
+    \section*{Part I(b): Derivation for the Receiver}
+
+    A received signal, \(x_{RX}(t)\) is defined as
+    \[x_{RX}(t) = x_{TX}(t) + x_I(t)\]
+where \(x_I(t)\) denotes interfering signals. We know nothing about \(x_I(t)\) other than it has a Fourier transform, \(X_I(F)\), and \(X_I(F)\) = 0 for all values of F where \(X_{TX}(F)\)
+is non-zero. (out-of-band interferers.)
+
+\subsection*{Calculation 6: Write an expression for the Fourier transform \(X_{RX}(F)\) in terms of \(X_{TX}(F)\) and \(X_I(F)\)}
+
+\[x_{RX}(t) = x_{TX}(t) + x_I(t) \xleftrightarrow{\quad \mathcal{F}\quad} X_{RX}(F) = X_{TX}(F) + X_I(F)\]
+
+\subsection*{Calculation 7: Next, replace the expression for \(X_{TX}(F)\) with its expression in terms of \(X_a(F)\)}
+\(X_{TX}(F)\) is defined as
+\[X_{TX}(F) = \dfrac{1}{2}X_a(F-F_c) + \dfrac{1}{2}X_a(F+F_c)\]
+now substituing this into the equation for \(X_{RX}(F)\)
+\[X_{RX}(F) = \dfrac{1}{2}X_a(F-F_c) + \dfrac{1}{2}X_a(F+F_c) + X_I(F)\]
+
+Now, the signal \(x_{RX}(t)\) is down-converted from the carrier frequency (\(F_c\)) to the audio frequency by multiplying it by \(x_c(t)\). Let \(x_d(t)\) be the down-converted signal, given by
+\[x_d(t) = x_{RX}(t)x_c(t)\]
+
+\subsection*{Calculation 8: The Fourier Transform of \(x_d(t)\)}
+
+Using the multiplication property of the Fourier transform, 
+
+ \[x(t)y(t) \xleftrightarrow{\quad \mathcal{F} \quad} X(F)\ast Y(F)\]
+ We can define \(X_d(F)\) as
+
+ \[X_d(F) = X_{RX}(F) \ast X_c(F)\]
+
+ \(X_{RX}(F)\) is defined as
+
+\[X_{RX}(F) = \dfrac{1}{2}X_a(F-F_c) + \dfrac{1}{2}X_a(F+F_c) + X_I(F)\]
+
+Allowing us to substitute into the equation for \(X_d(F)\)
+
+\[X_d(F) = \left[\dfrac{1}{2}X_a(F-F_c) + \dfrac{1}{2}X_a(F+F_c) + X_I(F) \right]\ast X_c(F)\]
+
+and \(X_c(F)\) is defined as
+\[X_c(F) = \dfrac{1}{2}\delta(F - Fc) + \dfrac{1}{2}\delta(F + Fc)\]
+
+Allowing another substitution.
+
+\[X_d(F) = \left[\dfrac{1}{2}X_a(F-F_c) + \dfrac{1}{2}X_a(F+F_c) + X_I(F) \right]\ast \left[\dfrac{1}{2}\delta(F - Fc) + \dfrac{1}{2}\delta(F + Fc)\right]\]
+
+Using the shifting property of convolution,
+
+\[X_d(F) = \dfrac{1}{4}X_a(F - F_c - F_c) + \dfrac{1}{4}X_a(F + F_c - F_c) + \dfrac{1}{2}X_I(F - F_c) + \dfrac{1}{4}X_a(F - F_c + F_c) + \dfrac{1}{4}X_a(F + F_c + F_c) + \dfrac{1}{2}X_I(F+F_c)\]
+
+Simplifying this gives
+
+\[X_d(F) = \dfrac{1}{4}X_a(F-2F_c) + \dfrac{1}{4}X_a(F) + \dfrac{1}{2}X_I(F-F_c) + \dfrac{1}{4}X_a(F) + \dfrac{1}{4}X_a(F+2F_c) + \dfrac{1}{2}X_I(F+F_c)\]
+
+Further simplifying and rearranging terms,
+
+\[X_d(F) = \dfrac{1}{4}X_a(F-2F_c) + \dfrac{1}{4}X_a(F+2F_c) + \dfrac{1}{2}X_a(F) + \dfrac{1}{2}X_I(F+F_c) + \dfrac{1}{2}X_I(F-Fc)\]
+
+Our final answer, and expression for \(X_d(F)\).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DOCUMENT END
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
