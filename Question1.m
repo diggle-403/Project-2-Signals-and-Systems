@@ -1,45 +1,23 @@
-% --- Parameters ---
-Fc = 0;          % Carrier Frequency (60 kHz)
-Fa = 0;            % Audio Frequency (500 Hz)
-F_int_orig = 0;  % Original Interferer Frequency (90 kHz)
+% 1. Define the locations of the deltas
+F_locations = [-500, 500];
 
-% --- Define Frequency Axis ---
-% High enough to see the 2Fc components (approx 120k)
-F = -160000:100:160000; 
+% 2. Define the amplitudes at those locations
+Amplitudes = [0.5, 0.5];
 
-% --- Construct the Signal Vectors (Using Logical Indexing) ---
-
-% 1. Baseband Audio: 1/2 Xa(F)
-% Centered at 0 Hz. (Peaks at +/- 500 Hz)
-% Original Amp = 0.5 -> New Amp = 0.25
-Xa_base = 0.25 * ((abs(F - Fa) < 50) | (abs(F + Fa) < 50));
-
-% 2. High-Frequency Audio Copies: 1/4 Xa(F +/- 2Fc)
-% Centered at +/- 120 kHz.
-% Original Amp = 0.5 -> New Amp = 0.125
-Xa_high = 0.125 * ((abs(F - (2*Fc - Fa)) < 50) | (abs(F - (2*Fc + Fa)) < 50) | ...
-                   (abs(F + (2*Fc - Fa)) < 50) | (abs(F + (2*Fc + Fa)) < 50));
-
-% 3. Shifted Interferers: 1/2 XI(F +/- Fc)
-% Original was at +/- 90k. Shifted by 60k.
-% Locations: (+90-60)=30k, (-90-60)=-150k, (+90+60)=150k, (-90+60)=-30k
-% Let's assume original XI amplitude was 0.5. New Amp = 0.25.
-XI_shifted = 0.25 * ((abs(F - 30000) < 50) | (abs(F + 30000) < 50) | ...
-                     (abs(F - 150000) < 50) | (abs(F + 150000) < 50));
-
-% --- Combine into Total Xd(F) ---
-Xd = Xa_base + Xa_high + XI_shifted;
-
-% --- Plotting ---
+% 3. Plot with stem
 figure;
-stem(F, Xd, 'b', 'LineWidth', 1.5, 'Marker', 'none');
+stem(F_locations, Amplitudes, 'filled', 'black');
+
+% 4. Add labels and adjust axes
+title('X_{TX}(F) with F_c = 0');
+xlabel('Frequency (F)');
+ylabel('Amplitude');
 grid on;
 
-% --- Formatting for Clarity ---
-title('Spectrum of Down-converted Signal X_d(F)');
-xlabel('Frequency (Hz)');
-ylabel('Amplitude');
-ylim([0 0.35]); % Set y-limit to see relative heights
+% --- This part is important ---
+% Get the current axis limits
 ax = gca;
-ax.XAxis.Exponent = 0;
-% Add text labels to explain the components
+% Add some padding to the x-axis (e.g., 100 units)
+xlim([ax.XLim(1)-100, ax.XLim(2)+100]);
+% Set y-axis to start at 0
+ylim([0 0.6]);

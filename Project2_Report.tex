@@ -116,7 +116,8 @@ $\hfill\blacksquare$\endsol}
 
 \section*{Introduction}
 
-In this project, our team will be deriving and applying Fourier constants across a simple step function. During this process several MATLAB calculations will be performed, as well as deriving the Fourier constant integral to be used in recreating a signal. These signals and constants will then be plotted. The code that is used to derive the Fourier constants will then be used to derive the constants of different instruments playing the C3 note.  
+In this project, I will be using given transmission signals ($x_{TX}(t))$, received signals(\(x_{RX}(t)\)), and a desired audio waveform (\(x_a(t)\))  
+to find a low-pass filter, such that the audio waveform \(x_a(t)\) can be output cleanly after transmission.
 
 
 \pagebreak
@@ -124,39 +125,39 @@ In this project, our team will be deriving and applying Fourier constants across
 \section*{Part I(a): Derivation for the Transmitter}
 
 Given a signal with a frequency of 500 Hz, \\ 
-\begin{equation}
+\begin{equation*}
     x(t) = \text{cos}(2\pi \times 500t)
-\end{equation}
+\end{equation*}
 and an arbitrary carrier frequency (\(F_c\)), to which the carrier signal is
-\begin{equation}
+\begin{equation*}
     x_c(t) = \text{cos}(2\pi F_ct)
-\end{equation}
+\end{equation*}
 
-\subsection*{Calculation 1: \(x_{TX}(t)\) as a sum of cosines}
+\subsection*{Calculation 1: \(x_{TX}(t)\) as a Sum of Cosines}
 
-\begin{equation}
+\begin{equation*}
 x_{TX}(t) = x(t)x_c(t)
-\end{equation}
+\end{equation*}
 
 Using the known signals, \(x(t)\) and \(x_c(t)\), we can substitute these functions into \(x_{TX}(t)\).
 
 \[x_{TX}(t) = (\text{cos}(2\pi \times 500t))(\text{cos}(2\pi F_ct))\]
 
 Using the trigonometric identity
-\begin{equation} 
+\begin{equation*} 
 \text{cos}(u)\text{cos}(v) = \dfrac{1}{2}[\text{cos}(u+v)+\text{cos}(u-v)]
-\end{equation}
+\end{equation*}
 
-Substituting in equation 1 for the cos(u) term, and equation 2 for the cos(v) term,
+Substituting in $x(t)$ for the cos(u) term, and $x_c(t)$ for the cos(v) term,
 
    \[\text{cos}(2\pi \times 500)\text{cos}(2\pi F_ct) = \dfrac{1}{2}[\text{cos}(2\pi \times 500t + 2\pi F_ct) + \text{cos}(2\pi \times 500t - 2\pi F_ct)]\]
 
 
 Resulting in the equation
 
-\begin{equation}   
-x_{TX}(t) = \dfrac{1}{2}[\text{cos}(2\pi \times 500t + 2\pi F_ct) + \text{cos}(2\pi \times 500t - 2\pi F_ct)]
-\end{equation}
+\begin{equation*}   
+x_{TX}(t) = \dfrac{1}{2}\Bigl[\text{cos}(2\pi \times 500t + 2\pi F_ct) + \text{cos}(2\pi \times 500t - 2\pi F_ct)\Bigr]
+\end{equation*}
 
 Then distributing the \(1/2\) to each cosine
 
@@ -177,39 +178,41 @@ And finally, factoring out t from each term.
 
 As shown through using trigonometic identities, and basic algebraic techniques, \(x_{TX}(t)\) can be expressed as a sum of cosines as follows.
 
-\begin{equation}
-   x_{TX}(t) = \dfrac{1}{2}\text{cos}(2\pi t(500 + F_c)) + \dfrac{1}{2}\text{cos}(2\pi t(500 - F_c)) 
-\end{equation}
+\begin{equation*}
+   \boxed{x_{TX}(t) = \dfrac{1}{2}\text{cos}(2\pi t(500 + F_c)) + \dfrac{1}{2}\text{cos}(2\pi t(500 - F_c)) }
+\end{equation*}
 
 
 \subsection*{Calculation 2: The Fourier Transform of \(x_{TX}(t)\)}
 
 The Fourier Transform for a continuous signal is defined as
 
-\begin{equation}   
+\begin{equation*}   
     X(F) = \int_{-\infty}^{\infty} x(t) e^{-j2\pi Ft}dt
-\end{equation}
+\end{equation*}
 
 Thankfully, the function \(x_{TX}(t)\) has a known Fourier Transform pair. The known pairing is
 
-\begin{equation}
+\begin{equation*}
     x(t) = \text{cos}(2\pi F_0t) \xleftrightarrow{\quad \mathcal{F} \quad}X(F) = \dfrac{1}{2}[\delta(F - F_0) + \delta(F +F_0)]
-\end{equation}
+\end{equation*}
 \newline
-\newline
-Since a property of the Fourier Transform is linearity, this means that we can split the function into two parts and apply the transform to each part. The first cosine term is
-\begin{equation}
+Since a property of the Fourier Transform is linearity, this means that we can split the function,
+
+\[x_{TX}(t) = \dfrac{1}{2}\text{cos}(2\pi t(500 + F_c)) + \dfrac{1}{2}\text{cos}(2\pi t(500 - F_c))\]
+into two parts and apply the transform to each part. The first cosine term is
+\begin{equation*}
 \dfrac{1}{2}\text{cos}(2\pi t(500 + F_c)) \xleftrightarrow{\quad \mathcal{F} \quad} \dfrac{1}{2} \left[\dfrac{1}{2}[\delta(F - 500+F_c) + \delta(F +500+F_c)]\right]
-\end{equation}
-\[= \dfrac{1}{4} \left[ \delta (F - 500 +F_c) + \delta (F + 500 + F_c)\right]\]
+\end{equation*}
+\[= \dfrac{1}{4} \Bigl[ \delta (F - 500 +F_c) + \delta (F + 500 + F_c)\Bigr]\]
 \[= \dfrac{1}{4} \delta (F - 500 + F_c) + \dfrac{1}{4} \delta (F + 500 + F_c)\]
 
 Then the second cosine term,
 
-\begin{equation}
+\begin{equation*}
 \dfrac{1}{2}\text{cos}(2\pi t(500 - F_c)) \xleftrightarrow{\quad \mathcal{F} \quad} \dfrac{1}{2} \left[\dfrac{1}{2}[\delta(F - 500-F_c) + \delta(F +500-F_c)]\right]
-\end{equation}
-\[= \dfrac{1}{4} \left[ \delta (F - 500 - F_c) + \delta (F + 500 - F_c)\right]\]
+\end{equation*}
+\[= \dfrac{1}{4} \Bigl[ \delta (F - 500 - F_c) + \delta (F + 500 - F_c)\Bigr]\]
 \[= \dfrac{1}{4} \delta (F - 500 - F_c) + \dfrac{1}{4} \delta (F + 500 - F_c)\]
 
 Then, referencing back to the linearity property, we are able to add these two transformed terms back together to have the final Fourier Transform, \(X_{TX}(F)\).
@@ -218,17 +221,10 @@ Then, referencing back to the linearity property, we are able to add these two t
 
 Finally, we can factor out the \(1/4\) term from each cosine, giving us our final answer.
 
-\begin{equation}
-    X_{TX}(F) =\dfrac{1}{4} \left[ \delta (F - 500 + F_c) + \delta (F + 500 + F_c) + \delta (F - 500 - F_c) + \delta (F + 500 - F_c) \right]
-\end{equation}
+\begin{equation*}
+    \boxed{X_{TX}(F) =\dfrac{1}{4} \left[ \delta (F - 500 + F_c) + \delta (F + 500 + F_c) + \delta (F - 500 - F_c) + \delta (F + 500 - F_c) \right]}
+\end{equation*}
 
-\subsection*{Calculation 2 Results:}
-
-Using the linearity property and a known pair, we were able to perform the Fourier Transform on a signal consisting of a sum of cosines. The resulting signal is a sum of \(\delta\) functions, with
-a magnitude of \(1/4\).
-
-
-   \[x_{TX}(t) \xleftrightarrow{\quad \mathcal{F} \quad} X_{TX}(F) =\dfrac{1}{4} \left[ \delta (F - 500 + F_c) + \delta (F + 500 + F_c) + \delta (F - 500 - F_c) + \delta (F + 500 - F_c) \right]\]
 
 \subsection*{Calculation 3:}
 
@@ -246,8 +242,8 @@ and doing the same for \(x_c(t)\)
 \[x_c(t) = \text{cos}(2\pi F_ct) \xleftrightarrow{\quad \mathcal{F} \quad}X_c(F) = \dfrac{1}{2}\delta(F - Fc) + \dfrac{1}{2}\delta(F + Fc)\]
 
 This results in our final calculations for \(X(F)\) and \(X_c(F)\) to be 
-\[X(F) = \dfrac{1}{2}\delta(F - 500) + \dfrac{1}{2}\delta(F +500)\]
-\[X_c(F) = \dfrac{1}{2}\delta(F - Fc) + \dfrac{1}{2}\delta(F + Fc)\]
+\[\boxed{X(F) = \dfrac{1}{2}\delta(F - 500) + \dfrac{1}{2}\delta(F +500)}\]
+\[\boxed{X_c(F) = \dfrac{1}{2}\delta(F - Fc) + \dfrac{1}{2}\delta(F + Fc)}\]
 
 \clearpage
 \subsection*{Calculation 4:}
@@ -287,7 +283,7 @@ Then, referencing back to the linearity property, we are able to add these terms
 And we can factor out the \(1/4\) term from each cosine, giving us our final answer.
 
 \begin{equation}
-    X_{TX}(F) =\dfrac{1}{4} \left[ \delta (F - 500 + F_c) + \delta (F + 500 + F_c) + \delta (F - 500 - F_c) + \delta (F + 500 - F_c) \right]
+    \boxed{X_{TX}(F) =\dfrac{1}{4} \left[ \delta (F - 500 + F_c) + \delta (F + 500 + F_c) + \delta (F - 500 - F_c) + \delta (F + 500 - F_c) \right]}
 \end{equation}
 
 \clearpage
@@ -309,48 +305,53 @@ Above we can see two stems, located at -500 and +500, with a height of 1/2. With
         \includegraphics[width=1\textwidth]{Q1_FC0.png}  
     \end{figure}
 
-    We can see that this is the same graph, only scaled down due to the additional 1/2 from \(X_c(F)\). Looking at a graph where \(F_c = 5500\), we can see a change in the graph. 
+    We can see that this is the same graph. Looking at a graph where \(F_c = 5500\), we can see a change in the graph. 
 
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.9\textwidth]{Q1_FC5500.png}  
     \end{figure}
 
-    Looking at this graph, we can see that when the signal is shifted by $F_c$, it is bound by \(X(F)\). 
-    \section*{WE AINT DONE COME BACK HERE}
+    Looking at this graph, we can see that when the signal is shifted by $F_c$, it is bound by \(X(F)\). This tells us that \textbf{the relation between \(X_{TX}(F)\) and $X(F)$ is that $X(F)$ bounds
+    $X_{TX}(F)$ into 500 Hz frequency bands, which are then shifted by $F_c$.}\\
+    
 
-
-    Now, should we be given an audio waveform \(x_a(t)\), given only the knowledge that it has a Fourier transform \(X_a(F)\) which only has non-zero values for \(\left|F\right| < 22\)kHz
+    Now, should we have been given an audio waveform \(x_a(t)\), given only the knowledge that it has a Fourier transform \(X_a(F)\) which only has non-zero values for \(\left|F\right| < 22\)kHz
     and it is a real signal, meaning that it is conjugate symmetric.\\
 
-    We shall now redefine our transmit signal by
+    We shall now redefine our transmission signal by
     \[x_{TX}(t) = x_a(t)x_c(t)\]
 
-    \subsection*{Calculation 5:}
+    \subsection*{Calculation 5: \(X_{TX}(F)\) in terms of \(X_a(F)\)}
     Despite not knowing the signal \(x_a(t)\), we will still take the Fourier transform to find our new, transformed signal, \(X_{TX}(F)\). For now, we will define the Fourier transform of \(x_a(t)\) as \(X_a(F)\).
     \[x_{TX}(t) = x_a(t)x_c(t) \xleftrightarrow{\quad \mathcal{F} \quad} X_{TX}(F) = X_a(F)\ast X_c(F)\]
     Since we have previously defined \(X_c(F)\), we can easily substitute it in.
-    \[X_{TX}(F) = X_a(F) \ast \dfrac{1}{2}\delta(F - Fc) + \dfrac{1}{2}\delta(F + Fc)\]
+    \[X_{TX}(F) = X_a(F) \ast \Bigl(\dfrac{1}{2}\delta(F - Fc) + \dfrac{1}{2}\delta(F + Fc)\Bigr)\]
     Now, using the shifting property of convolution, \(x(t) \ast \delta(t-t_0) = x(t-t_0)\).
 
-    \[X_{TX}(F) = \dfrac{1}{2}X_a(F-F_c) + \dfrac{1}{2}X_a(F+F_c)\]
+    \[\boxed{X_{TX}(F) = \dfrac{1}{2}X_a(F-F_c) + \dfrac{1}{2}X_a(F+F_c)}\]
 
     \subsection*{Question 2: How is \(X_{TX}(F)\) related to \(X_a(F)\)?}
 
-    \section*{I AINT DONE WITH YOU BOY}
+    Based on the above definition of \(X_{TX}(F)\) we can determine that \textbf{\(X_{TX}(F)\) is two scaled and shifted \(X_a(F)\) signals. }
+    \text
 
     \subsection*{Question 3: What is the bandwidth of \(X_a(F)\) if we only consider the positive side of the F-Axis?}
     With the hypothetical that the minimum frequency of \(X_a(F)\) is F = 0 Hz, and the maximum frequency is F = 22kHz, the bandwith is the difference between the largest and smallest frequency.
     The difference between the two frequencies, 0 Hz and 22k Hz, is 22k Hz. With that
-    we can say that \textbf{the bandwith of \(X_a(F)\) is 22kHz}
+    we can say that \textbf{the bandwidth of \(X_a(F)\) is 22k Hz}
 
     \subsection*{Question 4: What is the bandwidth of \(X_{TX}(F)\) if we only consider the positive side of the F-Axis?}
 
-    \section*{NOT DONE YET}
+    Based on the definition of \(X_{TX}(F)\),
 
+    \[X_{TX}(F) = \dfrac{1}{2}X_a(F-F_c) + \dfrac{1}{2}X_a(F+F_c)\]
+    
+    This tells us that we have placed \(X_a(F)\) on both the negative and positive side of $F_c$. Due to the bandwidth of \(X_a(F)\) being 22k Hz, we can determine that \(X_{TX}(F)\) will
+    span from \(F_c -22\)k Hz to \(F_c+22\)k Hz. The difference between \(F_c -22\)k Hz and \(F_c+22\)k Hz is 44k Hz, so \textbf{the bandwidth of \(X_{TX}(F)\) is 44k Hz}
      \subsection*{Question 5: How does the bandwidth of \(X_{TX}(F)\) compare with the bandwidth of \(X_a(F)\)}
 
-    \section*{NOT DONE YET}
+    With the bandwidth of \(X_{TX}(F)\) being 44k Hz, and the bandwidth of \(X_a(F)\) being 22k Hz, we can deduce that \textbf{the bandwidth of \(X_{TX}(F)\) is twice that of \(X_a(F)\)}.
 
 \clearpage
     \section*{Part I(b): Derivation for the Receiver}
@@ -362,18 +363,19 @@ is non-zero. (out-of-band interferers.)
 
 \subsection*{Calculation 6: Write an expression for the Fourier transform \(X_{RX}(F)\) in terms of \(X_{TX}(F)\) and \(X_I(F)\)}
 
-\[x_{RX}(t) = x_{TX}(t) + x_I(t) \xleftrightarrow{\quad \mathcal{F}\quad} X_{RX}(F) = X_{TX}(F) + X_I(F)\]
+\[x_{RX}(t) = x_{TX}(t) + x_I(t) \xleftrightarrow{\quad \mathcal{F}\quad} \boxed{X_{RX}(F) = X_{TX}(F) + X_I(F)}\]
 
 \subsection*{Calculation 7: Next, replace the expression for \(X_{TX}(F)\) with its expression in terms of \(X_a(F)\)}
 \(X_{TX}(F)\) is defined as
 \[X_{TX}(F) = \dfrac{1}{2}X_a(F-F_c) + \dfrac{1}{2}X_a(F+F_c)\]
 now substituing this into the equation for \(X_{RX}(F)\)
-\[X_{RX}(F) = \dfrac{1}{2}X_a(F-F_c) + \dfrac{1}{2}X_a(F+F_c) + X_I(F)\]
+\[\boxed{X_{RX}(F) = \dfrac{1}{2}X_a(F-F_c) + \dfrac{1}{2}X_a(F+F_c) + X_I(F)}\]
 
-Now, the signal \(x_{RX}(t)\) is down-converted from the carrier frequency (\(F_c\)) to the audio frequency by multiplying it by \(x_c(t)\). Let \(x_d(t)\) be the down-converted signal, given by
-\[x_d(t) = x_{RX}(t)x_c(t)\]
+
 
 \subsection*{Calculation 8: The Fourier Transform of \(x_d(t)\)}
+Now, the signal \(x_{RX}(t)\) is down-converted from the carrier frequency (\(F_c\)) to the audio frequency by multiplying it by \(x_c(t)\). Let \(x_d(t)\) be the down-converted signal, given by
+\[x_d(t) = x_{RX}(t)x_c(t)\]
 
 Using the multiplication property of the Fourier transform, 
 
@@ -407,7 +409,7 @@ Simplifying this gives
 
 Further simplifying and rearranging terms,
 
-\[X_d(F) = \dfrac{1}{4}X_a(F-2F_c) + \dfrac{1}{4}X_a(F+2F_c) + \dfrac{1}{2}X_a(F) + \dfrac{1}{2}X_I(F+F_c) + \dfrac{1}{2}X_I(F-F_c)\]
+\[\boxed{X_d(F) = \dfrac{1}{4}X_a(F-2F_c) + \dfrac{1}{4}X_a(F+2F_c) + \dfrac{1}{2}X_a(F) + \dfrac{1}{2}X_I(F+F_c) + \dfrac{1}{2}X_I(F-F_c)}\]
 
 Our final answer, and expression for \(X_d(F)\).
 
@@ -438,7 +440,7 @@ The final transform which has no shifts, is simple enough
 
 Now, with the pieces that we have found, we can reconstruct the signal using the linearity property of the Fourier transform.
 
-\[x_d(t) = \dfrac{1}{2}x_a(t) + \dfrac{1}{2}x_a(t)\text{cos}(4\pi F_c t) + x_I(t)\text{cos}(2\pi F_c t)\]
+\[\boxed{x_d(t) = \dfrac{1}{2}x_a(t) + \dfrac{1}{2}x_a(t)\text{cos}(4\pi F_c t) + x_I(t)\text{cos}(2\pi F_c t)}\]
 
 \subsection*{Calculation 10: The Fourier transform for the ideal filter \(H(F)\)}
 To fully recieve our signal, we must now apply a filter to remove the unwanted content, so we are only left with \(x_a(t)\). Knowing that our transformed signal, \(X_a(F)\) does not
@@ -461,20 +463,20 @@ nothing will pass through.
 
 Using the piecewise function we created for H(F), we can define H(F) formally as
 
-\[H(F) = \text{rect}\Bigl(\dfrac{F}{44\text{ kHz}}\Bigr)\]
+\[\boxed{H(F) = \text{rect}\Bigl(\dfrac{F}{44\text{ kHz}}\Bigr)}\]
 
 \subsection*{Calculation 11: Determine the Impulse Response h(t)}
 
-The rect function has known Fourier pairing,
+The rect function has a known Fourier pairing,
 \[X(F) = \text{rect}\Bigl(\dfrac{F}{W}\Bigr) \xleftrightarrow{\quad \mathcal{F} \quad } x(t) = W\text{sinc}(Wt)\]
 
 Using our defined H(F)
 
-\[H(F) =\text{rect}\Bigl(\dfrac{F}{44\text{ kHz}}\Bigr) \xleftrightarrow{\quad \mathcal{F} \quad } h(t) = 44\text{ kHz }\text{sinc}(44\text{ kHz }t)\]
+\[H(F) =\text{rect}\Bigl(\dfrac{F}{44\text{ kHz}}\Bigr) \xleftrightarrow{\quad \mathcal{F} \quad } h(t) = 44\text{k }\text{sinc}(44\text{k }t)\]
 
-Otherwise,
+Otherwise expressed as,
 
-\[h(t) = 44000\text{ sinc}(44000t)\]
+\[\boxed{h(t) = 44000\text{ sinc}(44000t)}\]
 \clearpage
 \subsection*{Calculation 12: The Fourier Transform \(X_{out}(F)\)}
 
@@ -482,7 +484,7 @@ Otherwise,
 
 \[x_{out}(t) = x_d(t) \ast h(t)\]
 
-Making the assumption that \(X_I(F)\) does not overlap in frequency with \(X_a(F)\), we can re-define \(X_d(F)\) as
+Making the assumption that \(X_I(F)\) does not overlap in frequency with \(X_a(F)\), we can redefine \(X_d(F)\) as
 
 \[X_d(F) = \dfrac{1}{4}X_a(F)(F-2F_c) + \dfrac{1}{4}X_a(F)(F+2F_c) + \dfrac{1}{2}X_a(F)\]
 
@@ -504,17 +506,33 @@ With the knowledge that \(X_a(F)\) has a bandwith of 22 kHz, and the piecewise f
 \end{cases}
 \end{equation*}
 
-First, let us visualize the different components we will be using. Firstly, H(F)
+Firstly, let us visualize H(F)
 
  \begin{figure}[H]
         \centering
         \includegraphics[width=0.9\textwidth]{Calc12_HF.png}  
     \end{figure}
 
-We can see that just like the piecewise function describes, H(F) is a box centered about 0, extending from -22 kHz to 22 kHz. Because we know that \(X_a(F)\) must lie in this region.
-Assuming that the frequency for \(X_a(F)\) is \(\pm\)22 kHz, no matter the carrier frequency, \(F_c\), the first two terms of \(X_d(F)\) will lie outside of the range of H(F)
+We can see that just like the piecewise function describes, H(F) is a box centered about 0, extending from -22 kHz to 22 kHz. Looking at \(X_d(F)\), we can see the term \(\dfrac{1}{4}X_a(F)(F \pm 2F_c)\).
+Ideally, our carrier frequency would be very large. Given that \(x_a(t)\) is an audio waveform, we can look at the United States Frequency Allocations Radio Spectrum and more specifically the lowest frequency "Broadcasting" section.
+
+ \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{US_Radio.png}  
+    \end{figure}
+
+The figure above shows that the lowest frequency one can use in the United States to broadcast is 535 kHz. This means that the term \(\dfrac{1}{4}X_a(F)(F \pm 2F_c)\) will be outside of our H(F), and thus be zero.
+
+This leaves one remaining term, and thus the expression for \(X_{out}(F)\),
+
+\[\boxed{X_{out}(F) = \dfrac{1}{2}X_a(F)}\]
 
 \subsection*{Calculation 13: The Final Expression for \(x_{out}(t)\)}
+
+After all that, we are able to perform a simple inverse Fourier transform on \(X_{out}(F)\) as follows,
+\[X_{out}(F) = \dfrac{1}{2}X_a(F) \xrightarrow{\mathcal{F}^{-1}} x_{out}(t) = \dfrac{1}{2}x_a(t)\]
+
+\[\boxed{x_{out}(t) = \dfrac{1}{2}x_a(t)}\]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DOCUMENT END
