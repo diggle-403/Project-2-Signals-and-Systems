@@ -246,6 +246,7 @@ This results in our final calculations for \(X(F)\) and \(X_c(F)\) to be
 \[\boxed{X_c(F) = \dfrac{1}{2}\delta(F - Fc) + \dfrac{1}{2}\delta(F + Fc)}\]
 
 \clearpage
+
 \subsection*{Calculation 4:}
 With these two Fourier Transforms, and the multiplication property,
 \[x(t)y(t) \xleftrightarrow{\quad \mathcal{F} \quad} X(F) \ast Y(F) \]
@@ -260,12 +261,12 @@ To simplify the terms of this \(X_{TX}(F)\), the function must be convolved. To 
 
 For ease of viewing, each term in the convolution has been labeled as follows
 
-\begin{equation}
+\begin{equation*}
     X_{TX}(F) = \overset{\circled{1}}{ {\frac{1}{2}\delta(F - 500)} } 
               + \overset{\circled{2}}{ {\frac{1}{2}\delta(F + 500)} } 
               \ast \overset{\circled{3}}{ {\frac{1}{2}\delta(F - F_c)} } 
               + \overset{\circled{4}}{ {\frac{1}{2}\delta(F + F_c)} }
-\end{equation}
+\end{equation*}
 
 each term on the right hand side, \circled{3} and \circled{4}, must be applied to each term on the left hand side, \circled{1} and \circled{2}.
 
@@ -282,9 +283,9 @@ Then, referencing back to the linearity property, we are able to add these terms
 
 And we can factor out the \(1/4\) term from each cosine, giving us our final answer.
 
-\begin{equation}
+\begin{equation*}
     \boxed{X_{TX}(F) =\dfrac{1}{4} \left[ \delta (F - 500 + F_c) + \delta (F + 500 + F_c) + \delta (F - 500 - F_c) + \delta (F + 500 - F_c) \right]}
-\end{equation}
+\end{equation*}
 
 \clearpage
 
@@ -413,7 +414,7 @@ Further simplifying and rearranging terms,
 
 Our final answer, and expression for \(X_d(F)\).
 
-\subsection*{Calculation 8: The Inverse Fourier Transform of \(X_d(F)\)}
+\subsection*{Calculation 9: The Inverse Fourier Transform of \(X_d(F)\)}
 
 Using the Fourier pairing
 
@@ -534,6 +535,21 @@ After all that, we are able to perform a simple inverse Fourier transform on \(X
 
 \[\boxed{x_{out}(t) = \dfrac{1}{2}x_a(t)}\]
 
+\section*{Part II: Demodulating Audio Signals}
+
+
+
+\subsection*{Plot 1: rx\_date vs. t}
+ \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{plot1.png}  
+    \end{figure}
+
+\subsection*{Question 6: Does the plot convey any meaningful information? }
+No, this graph shows nothing more than a mix of differing carrier frequencies
+
+\subsection*{Question 7: How long is the signal in seconds?}
+Based on the plot above, we can determine that the signal is \textbf{10 seconds} long
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DOCUMENT END
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
