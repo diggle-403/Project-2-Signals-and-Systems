@@ -550,6 +550,40 @@ No, this graph shows nothing more than a mix of differing carrier frequencies
 
 \subsection*{Question 7: How long is the signal in seconds?}
 Based on the plot above, we can determine that the signal is \textbf{10 seconds} long
+
+\subsection*{Plot 2: Fourier Transform of rx\_data vs. f\_axis}
+
+ \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{plot2.png}  
+    \end{figure}
+
+\subsection*{Question 8: Is there any signal content within 20k Hz of F = 0?}
+Looking at the graph, we can see symmetry about 0 Hz, with 5 peaks on each side. Expanding outwards from 0 Hz, we see the amplitude of the signal
+increase at each spike until the highest amplitude occurs at \(\pm 180\)k Hz. Then the final spike is slightly smaller than the third.
+
+Based off of this graph alone, we can determine that \textbf{there is no content located in the 20k Hz range}.
+
+To better illustrate this, below is the same graph, but with the \(\pm\)20k Hz range highlighted.
+
+ \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{q8.png}  
+    \end{figure}
+
+
+\subsection*{Question 9: What frequency do the 'humps' appear to be centered on?}
+Using MATLAB's data points tool, we are able to place data points on where the centers on these 'humps' appear. However, due to this being a \textbf{very} large set of data points
+MATLAB can have difficulties processing the location, leading to a little bit of inferrance.
+
+ \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.9\textwidth]{q9.png}  
+    \end{figure}
+
+Based on these 5 data points, we can approximate that these 'humps' center around frequencies for F = \(\pm\){45k, 90k, 135k, 180k, and 225k}Hz
+
+\subsection*{Question 10: How do these values relate to the given carrier frequencies?}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DOCUMENT END
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
